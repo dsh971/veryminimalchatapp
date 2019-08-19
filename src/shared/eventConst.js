@@ -7,4 +7,5 @@ module.exports = {
     CHECK_USER: "CHECK_USER",
     LOGOUT: "LOGOUT",
     USERS_ONLINE: "USERS_ONLINE",
+    UPLOAD: "UPLOAD",
 };

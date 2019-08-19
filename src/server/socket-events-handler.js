@@ -6,6 +6,8 @@ const dataStore = require('./data-store').dataStore;
 const store = new dataStore();
 
 module.exports = function (socket) {
+	
+	
     console.log("Socket Id: " + socket.id);
 
 	socket.on(eventConst.CHECK_USER, (userName, callback)=>{
@@ -39,8 +41,12 @@ module.exports = function (socket) {
 		io.emit(eventConst.CHAT, messages)
 	});
 
-	socket.on(eventConst.MESSAGE_SENT, (userName, message)=>{
-		const messages = store.addMessage(userName, message);
+	socket.on(eventConst.MESSAGE_SENT, (userName, type, message)=>{
+		const messages = store.addMessage(userName, type, message);
 		io.emit(eventConst.MESSAGE_RECIEVED, messages);
 	});
+
+	socket.on(eventConst.UPLOAD, () => {
+
+	})
 };

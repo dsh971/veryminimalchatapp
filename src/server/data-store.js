@@ -26,8 +26,8 @@ function dataStore() {
         return this.messages;
     }
 
-    this.addMessage = (userName, message) => {
-        const messageObj = createMessageObject({sender: userName, message});
+    this.addMessage = (userName, type, message) => {
+        const messageObj = createMessageObject({sender: userName, type, message});
         if (this.messages.length >= 20) {
             this.messages.shift();
         }

@@ -7,8 +7,9 @@ exports.createUserObject = ({userName="", socketId=""} = {}) => ({
     created_at: new Date()
 });
 
-exports.createMessageObject = ({sender="", message=""} = {}) => ({
+exports.createMessageObject = ({sender="", type="txt", message=""} = {}) => ({
     id: uuidv4(),
+    type,
     sender,
     message,
     created_at: new Date()

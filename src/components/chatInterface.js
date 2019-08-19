@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Comment, Form, Header, Dropdown } from 'semantic-ui-react'
 import eventConst from '../shared/eventConst';
+import MyDropZone from './dropzone';
 
 export default class ChatInterface extends React.Component {
     state = {
@@ -25,7 +26,7 @@ export default class ChatInterface extends React.Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        this.props.socket.emit(eventConst.MESSAGE_SENT, this.props.userProfile.userName, this.state.chatMessage);
+        this.props.socket.emit(eventConst.MESSAGE_SENT, this.props.userProfile.userName, "txt", this.state.chatMessage);
         this.setState({chatMessage: ""})
     }
 
@@ -35,7 +36,8 @@ export default class ChatInterface extends React.Component {
 
     displayChatMessages = () => (
         this.props.messages.map((message) => (
-            <Comment key={message.id}>
+            message.type === 'txt'
+            ? <Comment key={message.id}>
                 <Comment.Avatar src='https://react.semantic-ui.com/images/wireframe/square-image.png' />
                 <Comment.Content>
                     <Comment.Author as='a'>{message.sender}</Comment.Author>
@@ -45,6 +47,16 @@ export default class ChatInterface extends React.Component {
                     <Comment.Text>{message.message}</Comment.Text>
                 </Comment.Content>
             </Comment>
+            : <Comment key={message.id}>
+            <Comment.Avatar src='https://react.semantic-ui.com/images/wireframe/square-image.png' />
+            <Comment.Content>
+                <Comment.Author as='a'>{message.sender}</Comment.Author>
+                <Comment.Metadata>
+                    <div>{message.created_at}</div>
+                </Comment.Metadata>
+                <img src={message.message} />
+            </Comment.Content>
+        </Comment>
         ))
     )
 
@@ -81,6 +93,13 @@ export default class ChatInterface extends React.Component {
                     />
                     <Button content='sent' type="submit" labelPosition='left' icon='edit' primary />
                 </Form>
+
+                <div>
+                    <MyDropZone
+                        socket={this.props.socket}
+                        userName={this.props.userProfile.userName}
+                    />
+                </div>
             </Comment.Group>
         );
     }
